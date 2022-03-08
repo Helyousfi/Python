@@ -25,17 +25,19 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open('items.csv', 'r') as f:
+        with open("items.csv", 'r') as f:
             reader = csv.DictReader(f)
             items = list(reader)
         print(items)
-        for idx in range(len(items)): 
+        idx = 0
+        while idx < len(items): 
             print(items[idx])
             Item(
                 name=items[idx].get('name'),
-                price=float(items[idx].get('price')),
-                quantity=int(items[idx].get('quantity')),
+                price=float(items[idx].get(' price')),
+                quantity=int(items[idx].get(' quantity')),
             )
+            idx+=1
     def __repr__(self):
         return f"Item('{self.name}', '{self.price}','{self.quantity}')"
 

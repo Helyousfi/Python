@@ -1,5 +1,6 @@
 name, price, quantity
-"Phone", 100, 50
-"Laptop", 500, 40
-"Cable", 10, 70
-"charger", 14, 80
+Phone,100,50
+Laptop,500,40
+Cable,10,70
+charger,14,80
+computer,140,80
