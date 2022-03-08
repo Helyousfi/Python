@@ -1,6 +1,11 @@
+import csv
+from unicodedata import name
+
 class Item:
     # class attribute
     pay_rate = 0.8 # 
+    all = []
+
     def __init__(self, name: str, price: float, quantity=0):
         # validations 
         assert price >= 0, f"The price : {price} is lesser than zero!"
@@ -10,20 +15,50 @@ class Item:
         self.name = name
         self.price = price
         self.quantity = quantity
+        Item.all.append(self)
+
     def calculate_total_price(self):
         return self.price * self.quantity
-    def apply_discount(self):
-        self.price = self.price * self.pay_rate
 
+    def apply_discount(self):
+        self.price = self.price * self.pay_rate # self = Item
+
+    @classmethod
+    def instantiate_from_csv(cls):
+        with open('items.csv', 'r') as f:
+            reader = csv.DictReader(f)
+            items = list(reader)
+        print(items)
+        for idx in range(len(items)): 
+            print(items[idx])
+            Item(
+                name=items[idx].get('name'),
+                price=float(items[idx].get('price')),
+                quantity=int(items[idx].get('quantity')),
+            )
+    def __repr__(self):
+        return f"Item('{self.name}', '{self.price}','{self.quantity}')"
+
+Item.instantiate_from_csv()
+print(Item.all)
+
+
+
+"""
 item1 = Item("Phone", 100, 5)
 item2 = Item("Laptop", 500, 10)
+item3 = Item("Cable", 6, 20)
+item4 = Item("Charger", 8, 60)
+item5 = Item("USB", 4, 70)
 
-item1.apply_discount()
-print(item1.price)
+print(Item.all)
+"""
+#item1.apply_discount()
+#print(item1.price)
 
-item2.pay_rate = 0.7
-item2.apply_discount()
-print(item2.price)
+#item2.pay_rate = 0.7
+#item2.apply_discount()
+#print(item2.price)
 
 #print(item1.calculate_total_price())
 #print(Item.pay_rate)
