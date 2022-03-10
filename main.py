@@ -1,5 +1,7 @@
 from ast import Pass
 import csv
+from distutils.command.install_lib import PYTHON_SOURCE_EXTENSION
+from traceback import print_tb
 from unicodedata import name
 
 class Item:
@@ -51,25 +53,26 @@ class Item:
 
 class Phone(Item):
     all_phones = []
-    def __init__(self, name: str, price: float, quantity: int, is_broken: bool):
+    def __init__(self, name: str, price: float, quantity: int, is_broken: int):
         super().__init__(name, price, quantity)
         self.is_broken = is_broken
         # validations 
         assert quantity>0, f"The quantity {quantity} is lesser than zero!" 
         print(f"A Phone instance created for {name}")
-        self.all_phones.append(self)
+        Phone.all_phones.append(self)
 
     @classmethod
     def intantiate_from_csv(cls, file):
+        print("ok")
         with open(file, 'r') as f:
             reader = csv.DictReader(f)
             items = list(reader)
         for item in items:
             Phone(
                 name=item.get('name'),
-                price=float(item.get(' price')),
-                quantity=int(item.get(' quantity')),
-                is_broken=bool(item.get(' is_broken')),
+                price=float(item.get('price')),
+                quantity=int(item.get('quantity')),
+                is_broken=int(item.get('is_broken')),
             )
 
     def __repr__(self):
@@ -88,12 +91,16 @@ class laptop(Item):
         return super().instantiate_from_csv(file)
 
 
+file = "phones.csv"
+Phone.instantiate_from_csv(file)
+print(Phone.all_phones)
 
+
+"""
 file = "items.csv"
 Phone.instantiate_from_csv(file)
 #print(Phone.all_phones)
 
-"""
 phone1 = Phone("Huawei", 10, 1, 1)
 print(phone1.name)
 print(phone1.all)
