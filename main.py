@@ -12,7 +12,7 @@ class Item:
         assert price >= 0, f"The price : {price} is lesser than zero!"
         assert quantity >= 0, f"The quantity : {quantity} is lesser than zero!"
         # assigning instance attributes
-        print(f"An instance created for : {name}")
+        #print(f"An Item instance created for : {name}")
         self.name = name
         self.price = price
         self.quantity = quantity
@@ -25,41 +25,84 @@ class Item:
         self.price = self.price * self.pay_rate # self = Item
 
     @classmethod
-    def instantiate_from_csv(cls):
-        with open("items.csv", 'r') as f:
+    def instantiate_from_csv(cls, file):
+        with open(file, 'r') as f:
             reader = csv.DictReader(f)
             items = list(reader)
-        print(items)
-        idx = 0
-        while idx < len(items): 
-            print(items[idx])
+        for item in items:
             Item(
-                name=items[idx].get('name'),
-                price=float(items[idx].get(' price')),
-                quantity=int(items[idx].get(' quantity')),
+                name=item.get('name'),
+                price=float(item.get(' price')),
+                quantity=int(item.get(' quantity')),
             )
-            idx+=1
+        #following lines for while loop
+        if 0:
+            idx = 0
+            while idx < len(items): 
+                Item(
+                    name=items[idx].get('name'),
+                    price=float(items[idx].get(' price')),
+                    quantity=int(items[idx].get(' quantity')),
+                )
+                idx+=1
 
     def __repr__(self):
         return f"Item('{self.name}', '{self.price}','{self.quantity}')"
 
 class Phone(Item):
-    def __init__(self, name: str, price: float, quantity: int, is_broken):
-        super().__init__()
+    all_phones = []
+    def __init__(self, name: str, price: float, quantity: int, is_broken: bool):
+        super().__init__(name, price, quantity)
         self.is_broken = is_broken
         # validations 
         assert quantity>0, f"The quantity {quantity} is lesser than zero!" 
-        
-        Phone.all.append(self)
+        print(f"A Phone instance created for {name}")
+        self.all_phones.append(self)
+
+    @classmethod
+    def intantiate_from_csv(cls, file):
+        with open(file, 'r') as f:
+            reader = csv.DictReader(f)
+            items = list(reader)
+        for item in items:
+            Phone(
+                name=item.get('name'),
+                price=float(item.get(' price')),
+                quantity=int(item.get(' quantity')),
+                is_broken=bool(item.get(' is_broken')),
+            )
 
     def __repr__(self):
         return f"Phone('{self.name}', '{self.price}','{self.quantity}')"
 
+class laptop(Item):
+    def __init__(self, name: str, price: float, quantity: int, operating_system: str, size: str):
+        super().__init_(name, price, quantity)
+        self.operating_system = operating_system
+        self.size = size
+        assert quantity >= 0, f"The quantity {quantity} is lesser than zero"
+        print(f"An instance ")
+    
+    @classmethod
+    def instantiate_from_csv(cls, file):
+        return super().instantiate_from_csv(file)
+
+
+
+file = "items.csv"
+Phone.instantiate_from_csv(file)
+#print(Phone.all_phones)
+
+"""
+phone1 = Phone("Huawei", 10, 1, 1)
+print(phone1.name)
+print(phone1.all)
+
+
+file = "items.csv"
 Item.instantiate_from_csv()
 print(Item.all)
-
-phone1 = Phone("Huawei", 10, 1)
-print(phone1.name)
+"""
 
 
 """
