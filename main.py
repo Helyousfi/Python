@@ -1,3 +1,4 @@
+from ast import Pass
 import csv
 from unicodedata import name
 
@@ -6,7 +7,7 @@ class Item:
     pay_rate = 0.8 # 
     all = []
 
-    def __init__(self, name: str, price: float, quantity=0):
+    def __init__(self, name: str, price: float, quantity: int):
         # validations 
         assert price >= 0, f"The price : {price} is lesser than zero!"
         assert quantity >= 0, f"The quantity : {quantity} is lesser than zero!"
@@ -38,12 +39,27 @@ class Item:
                 quantity=int(items[idx].get(' quantity')),
             )
             idx+=1
+
     def __repr__(self):
         return f"Item('{self.name}', '{self.price}','{self.quantity}')"
+
+class Phone(Item):
+    def __init__(self, name: str, price: float, quantity: int, is_broken):
+        super().__init__()
+        self.is_broken = is_broken
+        # validations 
+        assert quantity>0, f"The quantity {quantity} is lesser than zero!" 
+        
+        Phone.all.append(self)
+
+    def __repr__(self):
+        return f"Phone('{self.name}', '{self.price}','{self.quantity}')"
 
 Item.instantiate_from_csv()
 print(Item.all)
 
+phone1 = Phone("Huawei", 10, 1)
+print(phone1.name)
 
 
 """

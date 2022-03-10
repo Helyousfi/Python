@@ -1,6 +1,10 @@
-name, price, quantity
-Phone,100,50
-Laptop,500,40
+name," price"," quantity"
+Phone,600,50
+Laptop,800,40
 Cable,10,70
 charger,14,80
-computer,140,80
+computer,1000,80
+headset,35,70
+keyboard,12.3,60
+"mouse ",10.7,80
+USB,4.5,120
