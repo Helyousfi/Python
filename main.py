@@ -1,14 +1,24 @@
 from ast import Pass
+from asyncore import read
 import csv
+import argparse
 from distutils.command.install_lib import PYTHON_SOURCE_EXTENSION
 from traceback import print_tb
 from unicodedata import name
+
+required_parser = 0
+
+if required_parser:
+    parser = argparse.ArgumentParser(description="Instantiate from command line")
+    parser.add_argument('--name', '--n', type = str, required = True, help = "name of the object")
+    parser.add_argument('--price', '--p', type = float, required = True, help = "Price of the object")
+    parser.add_argument('--quantity', '--q', type = int, required = True, help = "quantity of the Items")
+    args = parser.parse_args()
 
 class Item:
     # class attribute
     pay_rate = 0.8 # 
     all = []
-
     def __init__(self, name: str, price: float, quantity: int):
         # validations 
         assert price >= 0, f"The price : {price} is lesser than zero!"
@@ -18,14 +28,12 @@ class Item:
         self.name = name
         self.price = price
         self.quantity = quantity
+        self.__disc = 0.2
         Item.all.append(self)
-
     def calculate_total_price(self):
         return self.price * self.quantity
-
     def apply_discount(self):
         self.price = self.price * self.pay_rate # self = Item
-
     @classmethod
     def instantiate_from_csv(cls, file):
         with open(file, 'r') as f:
@@ -47,7 +55,6 @@ class Item:
                     quantity=int(items[idx].get(' quantity')),
                 )
                 idx+=1
-
     def __repr__(self):
         return f"Item('{self.name}', '{self.price}','{self.quantity}')"
 
@@ -60,9 +67,8 @@ class Phone(Item):
         assert quantity>0, f"The quantity {quantity} is lesser than zero!" 
         print(f"A Phone instance created for {name}")
         Phone.all_phones.append(self)
-
     @classmethod
-    def intantiate_from_csv(cls, file):
+    def instantiate_from_csv(cls, file):
         print("ok")
         with open(file, 'r') as f:
             reader = csv.DictReader(f)
@@ -74,26 +80,43 @@ class Phone(Item):
                 quantity=int(item.get('quantity')),
                 is_broken=int(item.get('is_broken')),
             )
-
     def __repr__(self):
         return f"Phone('{self.name}', '{self.price}','{self.quantity}')"
 
 class laptop(Item):
+    all_laptops = []
     def __init__(self, name: str, price: float, quantity: int, operating_system: str, size: str):
         super().__init_(name, price, quantity)
         self.operating_system = operating_system
         self.size = size
         assert quantity >= 0, f"The quantity {quantity} is lesser than zero"
         print(f"An instance ")
-    
     @classmethod
     def instantiate_from_csv(cls, file):
-        return super().instantiate_from_csv(file)
+        with open(file, "r") as f:
+            reader = csv.DictReader(f)
+            items = list(reader)
+            for item in items:
+                laptop(
+                    name = item.get('name'),
+                    price = float(item.get('price')),
+                    quantity = int(item.get('quantity')),
+                    operating_system = item.get('operating_system'),
+                    size = item.get('size')
+                )
+    def __repr__(self):
+        return f"laptop('{self.name}', '{self.price}','{self.quantity}')"
 
 
 file = "phones.csv"
 Phone.instantiate_from_csv(file)
 print(Phone.all_phones)
+phone1 = Phone.all_phones[0]
+
+
+if required_parser:
+    item1 = Item(args.name, args.price, args.quantity)
+    print(item1.name)
 
 
 """
