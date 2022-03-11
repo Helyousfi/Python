@@ -1,0 +1,9 @@
+git status
+git branch alpha
+git branch --list
+git checkout alpha
+git branch
+git add main.py
+git status
+git commit -m "alpha branch"
+git push --set-upstream origin alpha
