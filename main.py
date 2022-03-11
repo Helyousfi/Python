@@ -6,30 +6,36 @@ from distutils.command.install_lib import PYTHON_SOURCE_EXTENSION
 from traceback import print_tb
 from unicodedata import name
 
-required_parser = 1
+required_parser = 0
+required_parser_phone = 0
+required_parser_laptop = 0
+
 if required_parser:
     # Create a parser for item 
-    parser_item = argparse.ArgumentParser(description="Instantiate from command line")
+    parser_item = argparse.ArgumentParser(description="Instantiate item from command line")
     parser_item.add_argument('--name', '--n', type = str, required = True, help = "name of the object")
     parser_item.add_argument('--price', '--p', type = float, required = True, help = "Price of the object")
     parser_item.add_argument('--quantity', '--q', type = int, required = True, help = "quantity of the Items")
     args_item = parser_item.parse_args()
+elif required_parser_phone:
     # Create a parser for phone
-    parser_phone = argparse.ArgumentParser(description="Instantiate from command line")
+    parser_phone = argparse.ArgumentParser(description="Instantiate phone from command line")
     parser_phone.add_argument('--name', '--n', type = str, required = True, help = "name of the object")
     parser_phone.add_argument('--price', '--p', type = float, required = True, help = "Price of the object")
     parser_phone.add_argument('--quantity', '--q', type = int, required = True, help = "quantity of the Items")
     parser_phone.add_argument('--is_broken', '--ib', type = int, required = True, help = "how many phones are broken")
     args_phone = parser_phone.parse_args()
+elif required_parser_laptop:
     # Create a parser for laptop
-    parser_laptop = argparse.ArgumentParser(description="Instantiate from command line")
+    parser_laptop = argparse.ArgumentParser(description="Instantiate laptop from command line")
     parser_laptop.add_argument('--name', '--n', type = str, required = True, help = "name of the object")
     parser_laptop.add_argument('--price', '--p', type = float, required = True, help = "Price of the object")
     parser_laptop.add_argument('--quantity', '--q', type = int, required = True, help = "quantity of the Items")
     parser_laptop.add_argument('--operating_sys', '--os', type = int, required = True, help = "Operating system")
     parser_laptop.add_argument('--size', '--s', type = int, required = True, help = "Size of the laptop")
     args_laptop = parser_laptop.parse_args()
-    
+else:
+    print(f"No parser required!")
 class Item:
     # class attribute
     pay_rate = 0.8 # 
@@ -129,6 +135,7 @@ print(Phone.all_phones)
 phone1 = Phone.all_phones[0]
 
 
+args = args_item
 if required_parser:
     item1 = Item(args.name, args.price, args.quantity)
     print(item1.name)
