@@ -1,5 +1,9 @@
 from pathlib import Path
 
+# Get the absolute path of this file
+FILE = Path(__file__).resolve()
+print(f"FILE : {FILE}")
+
 # Relative Path
 files_path = Path("ML", "main.py")
 print(files_path)
