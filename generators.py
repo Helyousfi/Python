@@ -1,6 +1,4 @@
-from optparse import Values
-from re import I
-
+# We don't waste the memory
 
 def myGenerator(n):
     for i in range(n):
