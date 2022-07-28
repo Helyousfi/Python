@@ -5,3 +5,4 @@ print(M[::-1])
 
 # To delete an item
 del M[0]
+print(M.sort(reverse = True))
